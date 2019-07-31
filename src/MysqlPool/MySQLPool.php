@@ -199,7 +199,12 @@ class MySQLPool extends Base
             $conn->database = 0;
             $conn->model    = $connName;
         } else {
-            $conn->database = substr($connName, strpos($connName, DB_DELIMITER) + strlen(DB_DELIMITER));
+            // alias database name
+            if(isset(self::$connsConfig[$connName]['databaseName'])){
+                $conn->database = self::$connsConfig[$connName]['databaseName'];
+            }else{
+                $conn->database = substr($connName, strpos($connName, DB_DELIMITER) + strlen(DB_DELIMITER));
+            }
             $conn->model    = substr($connName, 0, strpos($connName, DB_DELIMITER));
         }
 
